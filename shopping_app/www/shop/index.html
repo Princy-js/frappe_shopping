@@ -1,0 +1,27 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Our Products</h1>
+        <a href="/my-cart" class="btn btn-primary">
+             Go to Cart
+        </a>
+    </div>
+    
+    {% if products %}
+    <div class="row">
+        {% for product in products %}
+            {% include "www/shop/components/product_card.html" %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <p>No products available at the moment.</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- JavaScript for Add to Cart -->
+<script src="/assets/shopping_app/js/shop.js"></script>
+{% endblock %}

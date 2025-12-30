@@ -1,0 +1,71 @@
+<!-- Order Card Component -->
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-1">Order #{{ order.name }}</h5>
+            <small class="text-muted">Placed on {{ order.order_date }}</small>
+        </div>
+        <div>
+            <!-- Status Badge with Different Colors -->
+            {% if order.order_status == "Delivered" %}
+            <span class="badge bg-success" style="font-size: 14px;">✅ Delivered</span>
+            {% elif order.order_status == "Shipped" %}
+            <span class="badge bg-info" style="font-size: 14px;">🚚 Shipped</span>
+            {% elif order.order_status == "Packed" %}
+            <span class="badge bg-primary" style="font-size: 14px;">📦 Packed</span>
+            {% elif order.order_status == "Confirmed" %}
+            <span class="badge bg-primary" style="font-size: 14px;">✔️ Confirmed</span>
+            {% elif order.order_status == "Pending" %}
+            <span class="badge bg-warning text-dark" style="font-size: 14px;">⏳ Pending</span>
+            {% elif order.order_status == "Cancelled" %}
+            <span class="badge bg-danger" style="font-size: 14px;">❌ Cancelled</span>
+            {% else %}
+            <span class="badge bg-secondary" style="font-size: 14px;">{{ order.order_status }}</span>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="card-body">
+        <!-- Order Items Table -->
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.order_items %}
+                    <tr>
+                        <td>{{ item.product_name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>₹{{ item.rate }}</td>
+                        <td>₹{{ item.amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                        <td><strong class="text-success">₹{{ order.total_amount }}</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <!-- Order Actions -->
+        <div class="text-end mt-3">
+            {% if order.order_status == "Pending" %}
+            <button class="btn btn-sm btn-danger cancel-order-btn" data-order="{{ order.name }}">
+                Cancel Order
+            </button>
+            {% endif %}
+            <button class="btn btn-sm btn-primary view-order-btn" data-order="{{ order.name }}">
+                View Details
+            </button>
+        </div>
+    </div>
+</div>
